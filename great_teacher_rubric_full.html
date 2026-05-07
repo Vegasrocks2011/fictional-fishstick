@@ -1,0 +1,335 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;color:var(--color-text-primary)}
+.wrap{padding:1.5rem;max-width:680px}
+.header{margin-bottom:1.5rem}
+.eyebrow{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:0.4rem}
+h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;line-height:1.2;margin-bottom:0.4rem}
+.subtitle{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.tabs{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 14px;border:none;background:transparent;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;transition:all 0.15s}
+.tab:hover{color:var(--color-text-primary)}
+.tab.active{color:#0F6E56;border-bottom-color:#1D9E75}
+.tab.focus-tab.active{color:#0F6E56;border-bottom-color:#1D9E75}
+.focus-badge{display:inline-block;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;background:#E1F5EE;color:#085041;padding:2px 6px;border-radius:10px;margin-left:5px;vertical-align:middle}
+.panel{display:none}
+.panel.active{display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;margin-bottom:0.25rem;color:var(--color-text-primary)}
+.section-desc{font-size:12px;color:var(--color-text-secondary);margin-bottom:1.25rem;line-height:1.5}
+.levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1.25rem}
+.level-col{}
+.level-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;padding-bottom:4px;border-bottom:1.5px solid}
+.level-head.pre{color:#888780;border-color:#888780}
+.level-head.nov{color:#185FA5;border-color:#378ADD}
+.level-head.beg{color:#3B6D11;border-color:#639922}
+.level-head.adv{color:#3C3489;border-color:#534AB7}
+.level-items{list-style:none}
+.level-items li{font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:5px;padding-left:10px;position:relative}
+.level-items li:before{content:'';width:3px;height:3px;border-radius:50%;background:var(--color-border-secondary);position:absolute;left:1px;top:6px}
+.subsection{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.subsection:last-child{border-bottom:none}
+.subsection-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:0.75rem}
+.survey-intro{background:#E1F5EE;border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;border:0.5px solid #9FE1CB}
+.survey-intro p{font-size:13px;color:#085041;line-height:1.6}
+.standard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:0.75rem}
+.standard-text{font-size:14px;color:var(--color-text-primary);line-height:1.6;margin-bottom:0.875rem}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;color:var(--color-text-secondary);transition:all 0.15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.agree.active{background:#E1F5EE;border-color:#0F6E56;color:#085041}
+.btn.partly.active{background:#FAEEDA;border-color:#854F0B;color:#633806}
+.btn.disagree.active{background:#FCEBEB;border-color:#A32D2D;color:#791F1F}
+.summary{margin-top:1.5rem;padding:1rem 1.25rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.summary strong{color:var(--color-text-primary);font-weight:500}
+.tally{display:flex;gap:12px;margin-top:0.75rem;flex-wrap:wrap}
+.tally-item{font-size:12px;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot.agree{background:#1D9E75}.dot.partly{background:#BA7517}.dot.disagree{background:#E24B4A}.dot.none{background:var(--color-border-secondary)}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">The Great Teacher Rubric — full interactive reference with department professionalism survey</h2>
+<div class="header">
+  <p class="eyebrow">Science Department CPD</p>
+  <h1>The Great Teacher Rubric</h1>
+  <p class="subtitle">A framework for professional growth across five domains. Use the tabs to explore each area — our department focus this term is highlighted.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab" onclick="showTab('climate')">Climate for learning</button>
+  <button class="tab" onclick="showTab('planning')">Planning & preparation</button>
+  <button class="tab" onclick="showTab('teaching')">Teaching & learning</button>
+  <button class="tab" onclick="showTab('assessing')">Assessing & responding</button>
+  <button class="tab focus-tab active" onclick="showTab('professionalism')">Professionalism <span class="focus-badge">Our focus</span></button>
+</div>
+
+<!-- CLIMATE -->
+<div class="panel" id="panel-climate">
+  <div class="subsection">
+    <p class="subsection-label">Developing positive attitudes to learning</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Recognises a positive climate is a prerequisite for success</li><li>Understands factors that influence motivation</li><li>Knows how to develop self-esteem</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Takes action to develop pupils' attitudes to learning</li><li>Ensures classroom is welcoming and motivating</li><li>Fosters positive pupil relationships through routines</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Uses a range of strategies to promote positive attitudes</li><li>Takes responsibility for developing pupils' self-management</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Consistent action to develop self-esteem and relationships with subject</li><li>Considered use of language to develop pupils' self-image</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Establishing routines</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Can identify several behaviour management strategies</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Routines established for entry, exit, start/end of lessons</li><li>Able to separate behaviour from the child</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Routines continually reviewed to maximise learning time</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Routines foster school ethos and teacher's own vision for learning</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Managing the emotional charge</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Monitors internal feelings and how they present externally</li><li>Awareness of pupils' possible emotions</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Aware of own state of mind and its effect on pupils</li><li>Manages outward expression of thoughts and feelings</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Manages own emotional state consistently</li><li>Deals appropriately with individual and group emotional needs</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Adapts teaching persona to each class context</li><li>Creates emotionally safe environment for risk-taking</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Upholding policies & responding to behaviour</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Knows professional duty to enforce behaviour policies</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Uses least intrusive intervention first</li><li>Responds to de-escalate after incidents</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Has planned escalation system for reward and sanction</li><li>Takes ownership of behaviour beyond own classroom</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Consistent use of cognitive domain of behaviour management</li><li>Early, adept interventions to prevent escalation</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANNING -->
+<div class="panel" id="panel-planning">
+  <div class="subsection">
+    <p class="subsection-label">Creating rigorous, outcome driven lessons</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Can explain learning as a journey from A to B</li><li>Attempts objective-driven lesson plans</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Creates rigorous, objective-driven lesson plans</li><li>Plans time for bite-sized practice of key skills</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>High expectations demonstrated in challenging objectives</li><li>Sophisticated use of scaffolding for all pupils</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Multiple I/We/You sequences within a lesson for rapid progress</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Planning for progress over time</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Can explain backward planning</li><li>Understands spiral curriculum theory</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Plans backwards from end-of-unit assessment</li><li>Integrates homework into the learning sequence</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Deep commitment to rigorous planning based on curriculum and pupil needs</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Sophisticated use of milestones within medium-term plans</li><li>Balances new input, scaffolding, repetition and mastery</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Meeting academic needs of all pupils</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-head pre">Pre-novice</p><ul class="level-items"><li>Thinks of ways to help struggling pupils succeed</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Adapts plans in response to formative assessment</li><li>Awareness of impact on pupils with SpLD</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Variety of strategies across medium-term plans for differentiated access</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Anticipates misconceptions and barriers at planning stage</li><li>Proactively integrates literacy objectives into medium-term plans</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Preparation of resources</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Fastidious in preparation of materials</li><li>Refreshes subject knowledge as part of planning</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Selects resources that engage pupils</li><li>Maintains a well-organised classroom</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Carries out scholarly activity as part of medium-term planning</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Classroom displays scaffold future learning</li><li>Research is integral to the planning process</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHING -->
+<div class="panel" id="panel-teaching">
+  <div class="subsection">
+    <p class="subsection-label">I — Teacher exposition</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Shares objectives clearly and motivatingly</li><li>Uses pupil-friendly vocabulary</li><li>Uses visuals to reinforce key points</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Matches exposition length to pupils' listening skills</li><li>Provides agenda for listening</li><li>Uses range of exemplification strategies</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Range of strategies for clarity and engagement</li><li>Makes links to prior knowledge throughout</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Develops metacognition through demonstration and modelling</li><li>Exposes pitfalls and how to avoid them</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">We — Collaborative learning</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Understands link between talking and thinking</li><li>Uses Bloom's Taxonomy for question design</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Promotes discussion with open, higher order questions</li><li>Chunks lessons between teacher and pupil talk</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Probes initial responses to check real understanding</li><li>Targets questions by attainment level</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Judicious use of teacher and pupil talk to develop real dialogue</li><li>Uses shared activities as critical assessment opportunities</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">You — Independent practice & instructions</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Scans room to monitor compliance</li><li>Economy of language when giving instructions</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Circulates during independent practice</li><li>Instructions are specific, concrete, sequential</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Intervenes at the point of error</li><li>Checking for understanding built into instructions</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Circulates to gather data informing next steps</li><li>Instructions set clear expectations for process and outcome</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSESSING -->
+<div class="panel" id="panel-assessing">
+  <div class="subsection">
+    <p class="subsection-label">Assessing</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Aware of NC expectations in specialism</li><li>Understands importance of regular accurate marking</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Has marking schedule ensuring regular feedback</li><li>Uses moderation to validate accuracy</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Regularly assesses during lessons with constructive feedback</li><li>Provides written feedback that facilitates dialogue</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Designs assessment structures within curriculum planning</li><li>Pupils play active role in their own assessment</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Analysing</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Aware of types of data schools record</li><li>Knows difference between data and information</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Systematically records results of pupil assessment</li><li>Uses records to track pupil progress over time</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Uses school data and national expectations to evaluate progress</li><li>Uses moderation to compare with similar groups</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Uses data tools to monitor achievement by groups (FSM, SEND, gender)</li><li>Question-level analysis to pinpoint remaining misconceptions</li></ul></div>
+    </div>
+  </div>
+  <div class="subsection">
+    <p class="subsection-label">Adapting</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Understands data informs as well as measures teaching</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Uses pupil data to inform learning environment and differentiation</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Assesses prior knowledge at start of unit and adjusts plans</li><li>Seeks specialist support for pupils not making adequate progress</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Develops well-informed intervention plans targeting underachievement</li><li>Prioritises by urgency and potential impact</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFESSIONALISM -->
+<div class="panel active" id="panel-professionalism">
+  <div class="survey-intro">
+    <p>This is our department focus for this term. Browse the full framework below, then scroll down to reflect on where you are right now — honestly and without judgement.</p>
+  </div>
+
+  <div class="subsection">
+    <p class="subsection-label">Self-management — the full progression</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Openly expresses belief in all children's ability</li><li>Personally organised</li><li>Identifies and expresses own emotions appropriately</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Active participant in training and CPD</li><li>Uses systems for effective time management</li><li>Pro-actively uses strategies to reduce emotional reactions</li><li>Demonstrates humility</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Deep sense of responsibility as agent of change</li><li>Proactively sets challenging goals and seeks development</li><li>Effectively manages emotions in challenging situations</li><li>Balances confidence with modesty</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Holds self to account for the success of all pupils</li><li>Rigorously evaluates own impact to identify highest-leverage goals</li><li>Prioritises time by long and short-term impact on students</li><li>Robust professional persona; reflects on underlying reasons for feelings</li></ul></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <p class="subsection-label">Evidence informed practice — the full progression</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Develops knowledge from suggested texts</li><li>Ensures assignments impact classroom practice</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Makes attempts to understand and adjust future approaches</li><li>Understands key general principles governing classroom practice</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Independent critical consumer of education policy and research</li><li>Able to use action research to improve classroom impact</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Conducts rigorous action research using data</li><li>Makes recommendations beyond own classroom</li><li>Reflections are both theory and practice based</li></ul></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <p class="subsection-label">Collaboration with colleagues & community — the full progression</p>
+    <div class="levels">
+      <div class="level-col"><p class="level-head pre">Pre-novice</p><ul class="level-items"><li>Expresses faith in abilities of others</li><li>Recognises value of engaging with parents and community</li><li>Positively receptive to support</li></ul></div>
+      <div class="level-col"><p class="level-head nov">Novice</p><ul class="level-items"><li>Champions others and actively supports their goals</li><li>Seeks support from experienced colleagues professionally</li><li>Responds positively to requests for support from others</li></ul></div>
+      <div class="level-col"><p class="level-head beg">Beginning</p><ul class="level-items"><li>Promotes positive staff culture by assuming the best of colleagues</li><li>Notices issues beyond own classroom and takes initiative</li><li>Considers what they might be overlooking in a situation</li></ul></div>
+      <div class="level-col"><p class="level-head adv">Advanced</p><ul class="level-items"><li>Appropriately challenges those who are openly negative about others</li><li>Empathy with challenges faced by others; adjusts behaviour accordingly</li><li>Actively seeks ways to support colleagues beyond what is normally expected</li></ul></div>
+    </div>
+  </div>
+
+  <p style="font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:1rem">Department reflection — where are you right now?</p>
+
+  <div class="standard" data-id="s1">
+    <p class="standard-text">I actively champion colleagues and support them in achieving their goals — not just when asked, but as a habit.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s1','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s1','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s1','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s2">
+    <p class="standard-text">When I have a concern or problem, I raise it directly with the right person rather than discussing it with others first.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s2','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s2','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s2','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s3">
+    <p class="standard-text">I try to assume the best of colleagues — I give people the benefit of the doubt before forming a judgement about their decisions or actions.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s3','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s3','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s3','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s4">
+    <p class="standard-text">I notice issues beyond my own classroom and take initiative to help resolve them, rather than waiting to be asked.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s4','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s4','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s4','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s5">
+    <p class="standard-text">I manage my own emotional reactions in difficult situations — I reflect on what I feel without letting it drive my behaviour in the moment.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s5','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s5','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s5','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s6">
+    <p class="standard-text">I am open to professional development — I actively seek out learning opportunities rather than waiting for them to come to me.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s6','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s6','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s6','disagree')">Not yet</button>
+    </div>
+  </div>
+  <div class="standard" data-id="s7">
+    <p class="standard-text">I hold myself to account for the success of all my pupils — not just the ones I find easiest to teach.</p>
+    <div class="btns">
+      <button class="btn agree" onclick="vote(this,'s7','agree')">This is me</button>
+      <button class="btn partly" onclick="vote(this,'s7','partly')">Getting there</button>
+      <button class="btn disagree" onclick="vote(this,'s7','disagree')">Not yet</button>
+    </div>
+  </div>
+
+  <div class="summary" id="summary" style="display:none">
+    <strong>Your responses so far</strong>
+    <div class="tally" id="tally"></div>
+    <p style="margin-top:0.75rem;font-size:12px;color:var(--color-text-tertiary)">Thank you — bring this to our next session. There are no right or wrong answers here.</p>
+  </div>
+</div>
+</div>
+
+<script>
+const votes={};
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.closest('.tab').classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+function vote(btn,id,val){
+  btn.closest('.btns').querySelectorAll('.btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  votes[id]=val;
+  const counts={agree:0,partly:0,disagree:0};
+  Object.values(votes).forEach(v=>counts[v]++);
+  document.getElementById('summary').style.display='block';
+  document.getElementById('tally').innerHTML=
+    `<span class="tally-item"><span class="dot agree"></span>${counts.agree} × This is me</span>`+
+    `<span class="tally-item"><span class="dot partly"></span>${counts.partly} × Getting there</span>`+
+    `<span class="tally-item"><span class="dot disagree"></span>${counts.disagree} × Not yet</span>`+
+    `<span class="tally-item"><span class="dot none"></span>${7-Object.keys(votes).length} unanswered</span>`;
+}
+</script>
